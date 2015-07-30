@@ -1,0 +1,113 @@
+<html>
+<head>
+    <style>
+        div.holder {
+            position: relative;
+            width: 30%;
+            height: 200px;
+            margin: 20px auto;
+            float: left;
+        }
+
+        div.shape {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: lightgreen;
+            z-index: 1;
+        }
+
+        div.text {
+            margin: 4% 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            float: left;
+        }
+
+        div.left {
+            float: left;
+            width: 50%;
+            height: 100%;
+        }
+
+        div.right {
+            float: right;
+            width: 50%;
+            height: 100%;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function randomisePosition(figure, base) {
+                if (typeof(base)==='undefined') base = 5;
+                var position;
+                if (Math.random() > .5) {
+                    position = (figure + Math.floor((Math.random() * base) + 1));
+                } else {
+                    position = (figure - Math.floor((Math.random() * base) + 1));
+                }
+                return position;
+            }
+
+            function poly(low, high, base) {
+                if (typeof(low)==='undefined') low = 5;
+                if (typeof(high)==='undefined') high = 95;
+                if (typeof(base)==='undefined') base = 5;
+                var
+                        poly,
+                        left,
+                        right,
+                        topLeft = {x: randomisePosition(low, base), y: randomisePosition(low, base)},
+                        topRight = {x: randomisePosition(high, base), y: randomisePosition(low, base)},
+                        bottomRight = {x: randomisePosition(high, base), y: randomisePosition(high, base)},
+                        bottomLeft = {x: randomisePosition(low, base), y: randomisePosition(high, base)};
+
+                poly = topLeft.x + '% ' + topLeft.y + '%, ';
+                poly += topRight.x + '% ' + topRight.y + '%, ';
+                poly += bottomRight.x + '% ' + bottomRight.y + '%, ';
+                poly += bottomLeft.x + '% ' + bottomLeft.y + '%';
+
+                left = '0 0, ';
+                left += ((topLeft.x * 2) + 10) + '% ' + topLeft.y + '%, ';
+                left += ((bottomLeft.x * 2) + 10) + '% ' + bottomLeft.y + '%, ';
+                left += '0 100%';
+                right = (topRight.x - (100 - topRight.x)) - 10 + '% ' + topRight.y + '%, ';
+                right += '100% 0, ';
+                right += '100% 100%, ';
+                right += (bottomRight.x - (100 - bottomRight.x)) - 10 + '% ' + bottomRight.y + '%';
+
+                return {
+                    clip: 'polygon(' + poly + ')',
+                    left: 'polygon(' + left + ')',
+                    right: 'polygon(' + right + ')'
+                };
+            }
+
+            var polygon = poly(5, 96, 5);
+            $('.shape').attr('style', '-webkit-clip-path:' + polygon.clip + ';clip-path:' + polygon.clip);
+            $('.left').attr('style', '-webkit-shape-outside:' + polygon.left + ';shape-outside:' + polygon.left);
+            $('.right').attr('style', '-webkit-shape-outside:' + ';shape-outside:' + polygon.right);
+        });
+    </script>
+</head>
+<body>
+<div class="holder">
+    <div class="shape">
+    </div>
+    <div class="text">
+        <div class="left">
+        </div>
+        <div class="right">
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent consectetur faucibus purus. Ut accumsan varius porttitor. Nunc molestie rhoncus orci, eget sollicitudin dui sodales eu. Nunc sed elit eu nisi eleifend porta. Mauris vitae elit tempor, consectetur dolor vel, vehicula arcu. </p>
+    </div>
+</div>
+</body>
+</html>
