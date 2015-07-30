@@ -1,14 +1,15 @@
 <html>
 <head>
     <style>
+        div {
+            box-sizing: border-box;
+        }
         div.holder {
             position: relative;
-            width: 30%;
-            height: 200px;
             margin: 20px auto;
+            padding: 40px 14%;
             float: left;
         }
-
         div.shape {
             position: absolute;
             left: 0;
@@ -20,26 +21,26 @@
         }
 
         div.text {
-            margin: 4% 0;
-            position: absolute;
+            position: relative;
             left: 0;
             top: 0;
             width: 100%;
-            height: 100%;
             z-index: 2;
             float: left;
+        }
+
+        p {
+            margin: 0;
         }
 
         div.left {
             float: left;
             width: 50%;
-            height: 100%;
         }
 
         div.right {
             float: right;
             width: 50%;
-            height: 100%;
         }
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
